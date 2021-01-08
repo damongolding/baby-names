@@ -27,7 +27,7 @@ export default function Home() {
 
   return (
     <div className="container mx-auto mt-4">
-      <div className="grid grid-cols-2 gap-12 bg-gray-100 p-4">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-12 bg-gray-100 p-4">
         <div>
           <h2 className="text-3xl">First names</h2>
           <p className="mb-4">
