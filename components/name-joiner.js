@@ -15,6 +15,9 @@ const NameJoiner = ({firstName, middleNames, familyName}) => {
 					{firstName}
 				</h3>
 			</li>
+			<li>
+				{firstName} {familyName}
+			</li>
 			{ names }
 		</ul>
 	)
