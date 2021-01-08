@@ -1,65 +1,87 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import { useState } from "react";
+
+import NameJoiner from "../components/name-joiner";
+
+import styles from "../styles/Home.module.css";
 
 export default function Home() {
+  const familyName = "Martin-Golding";
+
+  const [firstNames, setFirstNames] = useState();
+  const [firstNamesArray, setFirstNamesArray] = useState([]);
+
+  const [middleNames, setMiddleNames] = useState();
+  const [middleNamesArray, setMiddleNamesArray] = useState([]);
+
+  function firstNameHandler(e) {
+    setFirstNames(e.target.value);
+    if (e.target.value === "") setFirstNamesArray(null);
+    else setFirstNamesArray(e.target.value.split(/\r?\n/));
+  }
+
+  function middleNameHandler(e) {
+    setMiddleNames(e.target.value);
+    if (e.target.value === "") setMiddleNamesArray(null);
+    else setMiddleNamesArray(e.target.value.split(/\r?\n/));
+  }
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+    <div className="container mx-auto mt-4">
+      <div className="grid grid-cols-2 gap-12 bg-gray-100 p-4">
+        <div>
+          <h2 className="text-3xl">First names</h2>
+          <p className="mb-4">
+            <small className="text-sm text-gray-500">
+              1 name per line
+            </small>
+          </p>
+          <textarea
+            className="border w-full px-4 py-2"
+            type="textarea"
+            onChange={firstNameHandler}
+            value={firstNames}
+            rows={firstNamesArray == null ? 1 : firstNamesArray.length + 1}
+          ></textarea>
         </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
+        <div>
+        <h2 className="text-3xl">Middle names</h2>
+        <p className="mb-4">
+            <small className="text-sm text-gray-500">
+              1 name per line
+            </small>
+          </p>
+          <textarea
+            className="border w-full px-4 py-2"
+            type="textarea"
+            onChange={middleNameHandler}
+            value={middleNames}
+            rows={middleNamesArray == null ? 1 : middleNamesArray.length + 1}
+          ></textarea>
+        </div>
+      </div>
+      <div className="p-4">
+        {(firstNamesArray !== null && firstNamesArray.length !== 0) &&
+          firstNamesArray.map((firstName, index) => {
+            if (middleNamesArray !== null && middleNamesArray.length !== 0 ) {
+              return (
+                <NameJoiner
+                  firstName={firstName}
+                  middleNames={middleNamesArray}
+                  familyName={familyName}
+                  key={index}
+                />
+              );
+            } else {
+              return (
+                <ul key={firstName}>
+                  <li>
+                    {firstName} {familyName}
+                  </li>
+                </ul>
+              );
+            }
+          })}
+      </div>
     </div>
-  )
+  );
 }
